@@ -88,7 +88,7 @@ const App = () => {
             <a href="https://www.youtube.com/@DesignToSolve" target="_blank" rel="noreferrer" className="text-slate-400 hover:text-white transition-colors">
               <Youtube size={24} />
             </a>
-            <a href="#" className="text-slate-400 hover:text-white transition-colors">
+            <a href="www.linkedin.com/in/vaibhavjavadekar" className="text-slate-400 hover:text-white transition-colors">
               <Linkedin size={24} />
             </a>
           </div>
