@@ -9,9 +9,11 @@ const App = () => {
       <nav className="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center text-white font-bold text-xl tracking-tighter">
-              DS
-            </div>
+            <img 
+              src="/logo_ds.png" 
+              alt="DesignToSolve Logo" 
+              className="w-10 h-10 rounded-full object-cover border border-slate-700"
+            />
             <span className="text-xl font-bold text-white tracking-tight">Design<span className="text-cyan-400">To</span>Solve</span>
           </div>
           <div className="flex gap-6 text-sm font-medium">
@@ -23,23 +25,23 @@ const App = () => {
       </nav>
 
       {/* Hero Section */}
-      <header className="max-w-5xl mx-auto px-6 py-24 md:py-32 flex flex-col md:flex-row items-center gap-12">
-        <div className="flex-1 space-y-6">
+      <header className="max-w-4xl mx-auto px-6 py-24 md:py-32 flex flex-col items-center justify-center text-center">
+        <div className="space-y-6 flex flex-col items-center">
           <div className="inline-block px-3 py-1 rounded-full bg-cyan-900/30 border border-cyan-500/30 text-cyan-400 text-xs font-semibold tracking-wider uppercase">
             System Design & Architecture
           </div>
           <h1 className="text-5xl md:text-7xl font-extrabold text-white tracking-tight leading-tight">
             Real Problems.<br />
-            Think. Design.<br />
+            Think. Design. Better Architecture. <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
-              Solve.
+              Solve. Practical Solutions.
             </span>
           </h1>
           <p className="text-lg md:text-xl text-slate-400 max-w-2xl leading-relaxed">
             Going beyond theoretical explanations. Explore real engineering problems, architectural trade-offs, and practical lessons learned from building enterprise software systems.
           </p>
-          <div className="flex gap-4 pt-4">
-            <a href="https://www.youtube.com/@DesignToSolve" target="_blank" rel="noreferrer" className="flex items-center gap-2 bg-white text-slate-900 px-6 py-3 rounded-lg font-bold hover:bg-slate-200 transition-colors">
+          <div className="pt-4">
+            <a href="https://www.youtube.com/@DesignToSolve" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-white text-slate-900 px-6 py-3 rounded-lg font-bold hover:bg-slate-200 transition-colors">
               <Youtube size={20} />
               Subscribe on YouTube
             </a>
@@ -79,10 +81,15 @@ const App = () => {
       <footer id="connect" className="border-t border-slate-800 py-12">
         <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
+            <img 
+              src="/logo_ds.png" 
+              alt="DesignToSolve Logo" 
+              className="w-10 h-10 rounded-full object-cover border border-slate-700"
+            />
             <span className="text-xl font-bold text-white tracking-tight">Design<span className="text-cyan-400">To</span>Solve</span>
           </div>
           <p className="text-slate-500 text-sm text-center md:text-left">
-            Understand the problem. Design the solution. Build it right.
+            Understand the Problem. Design the Solution. Build it Right.
           </p>
           <div className="flex gap-4">
             <a href="https://www.youtube.com/@DesignToSolve" target="_blank" rel="noreferrer" className="text-slate-400 hover:text-white transition-colors">
