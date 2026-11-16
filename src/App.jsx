@@ -1,7 +1,71 @@
-import React from 'react';
-import { Youtube, Linkedin, Code, Server, Database, Cloud } from 'lucide-react';
+import React, { useState } from 'react';
+import emailjs from '@emailjs/browser';
+import { Youtube, Linkedin, Code, Server, Database, Cloud, Mail, MessageSquareText } from 'lucide-react';
+
+const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
 const App = () => {
+  const [formData, setFormData] = useState({
+    email: '',
+    note: '',
+  });
+  const [status, setStatus] = useState('');
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setStatus('');
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const trimmedEmail = formData.email.trim();
+    const trimmedNote = formData.note.trim();
+
+    if (!trimmedEmail || !trimmedNote) {
+      setStatus('Please enter both your email and a note.');
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmedEmail)) {
+      setStatus('Please enter a valid email address.');
+      return;
+    }
+
+    if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
+      setStatus('Email service is not configured yet. Add VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, and VITE_EMAILJS_PUBLIC_KEY in your environment variables.');
+      return;
+    }
+
+    const noteText = trimmedNote.slice(0, 1000);
+
+    try {
+      setStatus('Sending...');
+
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          from_email: trimmedEmail,
+          subject: `New note from ${trimmedEmail}`,
+          message: noteText,
+          to_email: 'design2solve@gmail.com',
+        },
+        EMAILJS_PUBLIC_KEY
+      );
+
+      setStatus('Thank you! Your note has been sent.');
+      setFormData({ email: '', note: '' });
+    } catch (error) {
+      console.error('EmailJS error:', error);
+      setStatus('Something went wrong while sending the note. Please try again later.');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-900 text-slate-200 font-sans selection:bg-cyan-500/30">
       
@@ -77,8 +141,76 @@ const App = () => {
         </div>
       </section>
 
+      {/* Note Section */}
+      <section id="connect" className="border-t border-slate-800 py-24">
+        <div className="max-w-3xl mx-auto px-6">
+          <div className="rounded-3xl border border-slate-700 bg-slate-900/80 p-8 shadow-2xl shadow-slate-950/30">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400">
+                <MessageSquareText size={24} />
+              </div>
+              <div>
+                <p className="text-sm uppercase tracking-[0.2em] text-cyan-400">Get in touch</p>
+                <h2 className="text-3xl font-bold text-white">Leave a note</h2>
+              </div>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <label htmlFor="email" className="flex items-center gap-2 text-sm font-medium text-slate-300 mb-2">
+                  <Mail size={16} className="text-cyan-400" />
+                  Email
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="your@email.com"
+                  className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="note" className="flex items-center gap-2 text-sm font-medium text-slate-300 mb-2">
+                  <MessageSquareText size={16} className="text-cyan-400" />
+                  Note
+                </label>
+                <textarea
+                  id="note"
+                  name="note"
+                  value={formData.note}
+                  onChange={handleChange}
+                  placeholder="Write your note here..."
+                  maxLength={1000}
+                  rows={6}
+                  className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 resize-none"
+                />
+                <div className="mt-2 flex justify-between items-center text-xs text-slate-400">
+                  <span>Maximum 1000 characters</span>
+                  <span>{formData.note.length}/1000</span>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <button
+                  type="submit"
+                  className="inline-flex items-center justify-center rounded-xl bg-cyan-500 px-5 py-3 font-semibold text-slate-950 transition hover:bg-cyan-400"
+                >
+                  Send note
+                </button>
+                {status && (
+                  <p className="text-sm text-cyan-300">{status}</p>
+                )}
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
       {/* Footer / Connect */}
-      <footer id="connect" className="border-t border-slate-800 py-12">
+      <footer className="border-t border-slate-800 py-12">
         <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
             <img 
